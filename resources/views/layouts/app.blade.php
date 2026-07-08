@@ -17,6 +17,10 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             <livewire:layout.navigation />
+            <div class="flex">
+                <x-layout.sidebar />
+                
+                <div class="flex-1">
 
             <!-- Page Heading -->
             @if (isset($header))

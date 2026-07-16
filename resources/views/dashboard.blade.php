@@ -1,44 +1,27 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tableau de bord') }}
-        </h2>
-    </x-slot>
+    <x-slot name="header"><h2 class="font-semibold text-xl text-gray-800">Tableau de bord</h2></x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    @php $compte = auth()->user()->compte; @endphp
 
-            <!-- Cartes statistiques -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                    <p class="text-sm text-gray-500">Montant emprunté</p>
-                    <p class="text-2xl font-bold text-gray-800 mt-2">—</p>
-                </div>
+    <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <x-dashboard-card title="Mon compte">
+                <p class="text-gray-500 text-sm">Code : {{ $compte->code }}</p>
+                <p class="text-gray-500 text-sm">Ouvert depuis {{ $compte->anciennete() }} mois</p>
+            </x-dashboard-card>
 
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                    <p class="text-sm text-gray-500">Statut de la demande</p>
-                    <p class="text-2xl font-bold text-gray-400 mt-2">Aucune demande</p>
-                </div>
-
-                <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                    <p class="text-sm text-gray-500">Prochaine échéance</p>
-                    <p class="text-2xl font-bold text-gray-800 mt-2">—</p>
-                </div>
-            </div>
-
-            <!-- Historique des demandes -->
-            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
-                <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Historique de mes demandes</h3>
-
-                    <div class="text-center py-8 text-gray-400">
-                        Vous n'avez pas encore soumis de demande de prêt.
-                        <br>
-                        
-                    </div>
-                </div>
-            </div>
-
+            <x-dashboard-card title="Éligibilité au prêt">
+                @if($compte->estEligible())
+                    <p class="text-green-600 font-semibold">Vous êtes éligible ✓</p>
+                @else
+                    <p class="text-red-600 font-semibold">Non éligible</p>
+                    <p class="text-sm text-gray-400">Compte ≥ 1 mois + au moins une transaction requis.</p>
+                @endif
+            </x-dashboard-card>
         </div>
+
+        @if($compte->estEligible())
+            <a href="{{ route('client.faire-pret') }}" class="bg-blue-600 text-white px-4 py-2 rounded">Faire une demande de prêt</a>
+        @endif
     </div>
 </x-app-layout>

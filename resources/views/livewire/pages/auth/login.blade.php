@@ -57,12 +57,8 @@ new #[Layout('layouts.guest')] class extends Component
         </div>
 
         
-        <div class="flex items-center justify-between mt-4">
-            <a href="{{ route('register') }}" wire:navigate>
-                <x-primary-button type="button">
-                    {{ __("S'inscrire") }}
-                </x-primary-button>
-            </a>
+        <div class="flex items-center justify-center mt-4">
+            
 
             <x-primary-button>
                 {{ __('Se connecter') }}

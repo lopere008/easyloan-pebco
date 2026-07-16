@@ -2,12 +2,12 @@
     <div class="flex items-center justify-between mb-4">
         <div>
             <h3 class="text-lg font-semibold text-gray-800">{{ $title }}</h3>
-            @if($subtitle)
+            @if($subtitle ?? null)
                 <p class="text-sm text-gray-500 mt-1">{{ $subtitle }}</p>
             @endif
         </div>
 
-        {{-- Slot optionnel pour un bouton d'action en haut à droite de la card --}}
+        
         @isset($action)
             <div>
                 {{ $action }}

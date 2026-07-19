@@ -12,7 +12,7 @@
             </x-dashboard-card>
 
             <x-dashboard-card title="Supervision globale" subtitle="Statistiques générales">
-                <p class="text-gray-500">{{ $stats['charges'] }} chargés de crédit</p>
+                <p class="text-gray-500">{{ $stats['demandes_total'] }} {{ $stats['montant_total'] }}  chargés de crédit</p>
 
             </x-dashboard-card>
 

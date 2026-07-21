@@ -23,6 +23,8 @@ class DemandeController extends Controller
         $stats = [
             'total' => DemandePret::count(),
             'en_attente' => DemandePret::where('statut', 'en_attente')->count(),
+            'acceptees' => DemandePret::where('statut', 'acceptee')->count(),
+            'refusees' => DemandePret::where('statut', 'refusee')->count(),
         ];
         return view('charge.dashboard', compact('stats'));
     }

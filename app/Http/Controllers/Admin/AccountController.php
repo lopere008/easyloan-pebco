@@ -24,23 +24,30 @@ class AccountController extends Controller
             'role' => 'required|in:client,charge_credit',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt(Str::random(16)),
+            'password' => bcrypt($request->password),
             'role' => $request->role,
         ]);
 
+        $code = null;
+
         if ($request->role === 'client') {
-            Compte::create([
+            $compte = Compte::create([
                 'user_id' => $user->id,
                 'code' => Compte::genererCode(),
                 'date_ouverture' => now(),
             ]);
+            $code = $compte->code;
         }
 
-        return back()->with('success', 'Compte créé avec succès.');
+        return back()->with([
+            'success' => 'Compte créé avec succès.',
+            'nouveau_code' => $code,
+        ]);
     }
 }

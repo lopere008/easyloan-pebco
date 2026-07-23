@@ -15,7 +15,8 @@ class DashboardController extends Controller
             'demandes_total' => DemandePret::count(),
             'montant_total' => DemandePret::where('statut', 'acceptee')->sum('montant'),
         ];
-        return view('admin.dashboard', compact('stats'));
+        $derniersComptes = User::latest()->take(10)->get(['id','name', 'email_verified_at', 'created_at']);
+        return view('admin.dashboard', compact('stats', 'derniersComptes'));
         
     }
 }

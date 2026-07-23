@@ -1,25 +1,5 @@
 <x-layouts.dashboard title="Gestion des comptes">
     <x-dashboard-card title="Créer un nouveau compte">
-
-        @if(session('nouveau_code'))
-            <div class="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p class="text-sm text-green-700">Compte client créé — code à transmettre :</p>
-                <p class="text-2xl font-bold text-green-800 tracking-wider mt-1">{{ session('nouveau_code') }}</p>
-            </div>
-        @elseif(session('success'))
-            <p class="text-green-600 text-sm mb-3">{{ session('success') }}</p>
-        @endif
-
-        @if($errors->any())
-            <div class="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <ul class="text-sm text-red-700 list-disc list-inside">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
         <form method="POST" action="{{ route('admin.comptes.store') }}" class="space-y-4">
             @csrf
             <div>
@@ -38,8 +18,12 @@
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" required />
             </div>
             <div>
-                <x-input-label for="password" value="Mot de passe" />
-                <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" required />
+                <x-input-label for="telephone" value="Téléphone" />
+                <x-text-input id="telephone" name="telephone" type="text" class="mt-1 block w-full" placeholder="+229 01 XX XX XX XX" />
+            </div>
+            <div>
+                <x-input-label for="agence" value="Agence" />
+                <x-text-input id="agence" name="agence" type="text" class="mt-1 block w-full" placeholder="Ex. Agence Cotonou-Centre" />
             </div>
             <x-primary-button>Créer le compte</x-primary-button>
         </form>
@@ -49,14 +33,16 @@
         <table class="w-full text-left">
             <thead>
                 <tr class="text-sm text-gray-500">
-                    <th>Nom</th><th>Rôle</th><th>Code (si client)</th>
+                    <th>Nom</th><th>Téléphone</th><th>Agence</th><th>Rôle</th><th>Code (si client)</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $u)
                     <tr class="border-t">
                         <td class="py-2">{{ $u->name }}</td>
-                        <td>{{ $u->role }}</td>
+                        <td>{{ $u->telephone ?? '—' }}</td>
+                        <td>{{ $u->agence ?? '—' }}</td>
+                        <td>{{ ucfirst(str_replace('_', ' ', $u->role)) }}</td>
                         <td>{{ $u->compte->code ?? '—' }}</td>
                     </tr>
                 @endforeach

@@ -34,5 +34,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(Compte::class);
     }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'telephone',
+        'agence',
+    ];
 
 }
